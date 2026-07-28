@@ -1,0 +1,8 @@
+local espada = script.Parent.Handle
+espada.Touched:Connect(function(hit)
+	local humano = hit.Parent:FindFirstChild("Humanoid")
+	if humano then
+		humano:TakeDamage(5)
+	end
+	
+end)

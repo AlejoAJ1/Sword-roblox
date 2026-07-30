@@ -1,8 +1,42 @@
-local espada = script.Parent.Handle
+local espada = script.Parent.Handle 
+local puedeGolpear = true 
+local puedeAnimacion = true
+local estoyAtacando = false
+
+script.Parent.Activated:Connect(function()
+	if puedeAnimacion == true then
+	local humano2 = script.Parent.Parent:FindFirstChild("Humanoid")
+	local animador = humano2:FindFirstChild("Animator")
+	local animacion = Instance.new("Animation")
+	animacion.AnimationId = "rbxassetid://99785740875013"
+	
+	local pista = animador:LoadAnimation(animacion)
+	pista.Priority = Enum.AnimationPriority.Action
+	pista:Play()
+	
+	estoyAtacando = true
+	puedeAnimacion = false
+	task.wait(1.5)
+	puedeAnimacion = true
+	estoyAtacando = false
+	
+	end
+end)
+
 espada.Touched:Connect(function(hit)
 	local humano = hit.Parent:FindFirstChild("Humanoid")
-	if humano then
-		humano:TakeDamage(5)
+	if estoyAtacando == true then
+		if humano then
+			if hit.Parent ~= script.Parent.Parent then 
+				if puedeGolpear == true then
+				humano:TakeDamage(5)
+					puedeGolpear = false
+					task.wait(1.5)
+					puedeGolpear = true
+				
+			
+				end
+			end	
+		end
 	end
-	
 end)
